@@ -519,7 +519,7 @@
         const examples = info.examples && info.examples.length ? card(sectionHeader({ title: info.examplesTitle || '', icon: 'search', tint: info.tint }) +
           info.examples.map(x => '<div class="panel"><div style="display:flex;gap:8px;align-items:baseline"><span class="badge upper" style="' + tintStyle(x.tint) + '">' + esc(x.range) + '</span><b style="font-family:var(--font);font-size:12.5px">' + esc(x.title) + '</b></div><span style="font-size:11.5px;color:var(--textSecondary)">' + UI.rich(x.detail) + '</span></div>').join('')) : '';
         const notes = info.notes && info.notes.length ? card(sectionHeader({ title: T('info.limits'), icon: 'triangle-alert', tint: 'warning' }) + UI.bullets(info.notes, 'warning', true)) : '';
-        const ref = card(sectionHeader({ title: T('info.source'), icon: 'book-open', tint: info.tint }) + '<p class="ref-text" style="margin:0">' + UI.rich(info.reference) + '</p>' +
+        const ref = card(sectionHeader({ title: T('info.source'), icon: 'book-open', tint: info.tint }) + '<p class="ref-text" style="margin:0">' + UI.rich(info.reference) + '</p>' + (info.refsHTML || '') +
           '<div class="footnote" style="padding:0">' + esc(T('info.disclaimer')) + '</div>');
         return head + about + bands + examples + notes + ref;
       }

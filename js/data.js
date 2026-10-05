@@ -585,6 +585,10 @@
     entry('propofol', 'droplets', 'secondary', 'infusion', 'propofolInfusion'),
     entry('remifentanil', 'audio-waveform', 'tertiary', 'infusion', 'remifentanilInfusion'),
     entry('ketamine', 'brain', 'warning', 'infusion', 'ketamineInfusion'),
+    entry('localAnestheticMax', 'syringe', 'warning', 'emergency', 'localAnestheticMax'),
+    entry('lastLipid', 'droplet', 'danger', 'emergency', 'lastLipid'),
+    entry('malignantHyperthermia', 'flame', 'danger', 'emergency', 'malignantHyperthermia'),
+    entry('pediatricEmergency', 'baby', 'info', 'emergency', 'pediatricEmergency'),
     entry('maintenanceFluid', 'thermometer', 'info', 'fluids', 'maintenanceFluid'),
     entry('allowableBloodLoss', 'droplet', 'danger', 'fluids', 'allowableBloodLoss'),
     entry('mallampati', 'mouth', 'accent', 'airway', 'mallampatiScore'),
@@ -598,7 +602,7 @@
     entry('tidalVolume', 'wind', 'accentSoft', 'airway', null),
     entry('apfel', 'list-ordered', 'tertiary', 'scores', null)
   ];
-  AA.ANESTHESIA_ORDER = ['infusion', 'vasoactive', 'fluids', 'airway', 'renal', 'sepsis', 'scores', 'electrolyte', 'bloodGas'];
+  AA.ANESTHESIA_ORDER = ['infusion', 'emergency', 'vasoactive', 'fluids', 'airway', 'renal', 'sepsis', 'scores', 'electrolyte', 'bloodGas'];
 
   AA.ICU_CATALOG = [
     entry('norepinephrine', 'heart-plus', 'blue', 'vasoactive', 'norepinephrineInfusion'),
@@ -640,7 +644,7 @@
   AA.ICU_ORDER = ['vasoactive', 'infusion', 'bloodGas', 'electrolyte', 'sepsis', 'airway', 'renal', 'fluids'];
 
   AA.CATEGORY_ICONS = {
-    infusion: 'syringe', vasoactive: 'heart-plus', renal: 'bean', sepsis: 'hospital', fluids: 'droplets',
+    infusion: 'syringe', emergency: 'siren', vasoactive: 'heart-plus', renal: 'bean', sepsis: 'hospital', fluids: 'droplets',
     airway: 'lungs', scores: 'list-ordered', electrolyte: 'droplet', bloodGas: 'lungs'
   };
 
