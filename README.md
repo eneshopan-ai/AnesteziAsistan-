@@ -15,3 +15,7 @@ Girilen hasta bilgileri hiçbir sunucuya gönderilmez. Ayarlar ve kaydedilen has
 ## Teknik bilgi
 
 Uygulama derleme gerektirmeyen HTML, CSS ve JavaScript dosyalarından oluşur. Arayüz dilleri: Türkçe, İngilizce (ABD) ve İngilizce (Birleşik Krallık).
+
+## Güncelleme
+
+`js/` veya `i18n/` dosyaları değiştirildiğinde commit'ten önce `./bump-build.sh` çalıştırılır; `index.html` ve `version.json` içindeki sürüm etiketi birlikte yenilenir. Uygulama açılırken ve arka plandan dönerken `version.json`'a bakar, yeni sürüm varsa sayfayı kendiliğinden yeniler. Bu sayede iPhone ana ekranına eklenen kısayol da eski dosyalarda kalmaz.
