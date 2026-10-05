@@ -19,12 +19,12 @@
     pentothalInfusion: {
       id: 'pentothalInfusion', icon: 'droplet', tint: 'accent',
       doseUnit: 'mgPerKgPerHour', concentrationUnit: 'mgPerMl',
-      stateVersion: 3,
+      stateVersion: 4,
       indications: [
-        { id: 'barbiturateComa', icon: 'brain', doseRange: R(1, 5), typicalDose: 3, titrationStep: 0.5, loadingRange: R(5, 10), typicalLoading: 5 },
-        { id: 'statusEpilepticus', icon: 'heart-pulse', doseRange: R(1, 5), typicalDose: 3, titrationStep: 0.5, loadingRange: R(3, 5), typicalLoading: 4 },
         { id: 'anesthesiaMaintenance', icon: 'activity', doseRange: R(3, 5), typicalDose: 4, titrationStep: 0.5, loadingRange: R(3, 5), typicalLoading: 4 },
-        { id: 'sedation', icon: 'moon-star', doseRange: R(0.5, 3), typicalDose: 1.5, titrationStep: 0.25, loadingRange: R(1, 3), typicalLoading: 2 }
+        { id: 'statusEpilepticus', icon: 'heart-pulse', doseRange: R(1, 5), typicalDose: 3, titrationStep: 0.5, loadingRange: R(3, 5), typicalLoading: 4 },
+        { id: 'sedation', icon: 'moon-star', doseRange: R(0.5, 3), typicalDose: 1.5, titrationStep: 0.25, loadingRange: R(1, 3), typicalLoading: 2 },
+        { id: 'barbiturateComa', icon: 'brain', doseRange: R(1, 5), typicalDose: 3, titrationStep: 0.5, loadingRange: R(5, 10), typicalLoading: 5 }
       ],
       presets: [[1000, 50], [500, 25], [500, 20], [1000, 100], [1000, 250], [1000, 500]],
       defaultPreparation: { mode: 'direct', directConcentration: 20, totalDrugMg: 1000, totalVolumeMl: 50 },
