@@ -62,7 +62,7 @@
       id, bp, name: content.name, genericName: content.genericName, tagline: content.tagline,
       icon: bp.icon, tint: bp.tint, badges: content.badges,
       doseUnit: bp.doseUnit, concUnit: bp.concentrationUnit,
-      unit: AA.DOSE_UNITS[bp.doseUnit],
+      unit: Object.assign({}, AA.DOSE_UNITS[bp.doseUnit], bp.loadingUnit || {}),
       indications, presets, standing,
       defaultPreparation: Object.assign({}, bp.defaultPreparation),
       limits: Object.assign({}, bp.limits, {

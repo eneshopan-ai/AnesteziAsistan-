@@ -32,7 +32,7 @@
   function infusionScreen(drugId) {
     const drug = AA.makeDrug(drugId);
     if (!drug) return null;
-    const stateKey = 'infusion.state.' + drugId + '.v2';
+    const stateKey = 'infusion.state.' + drugId + '.v' + (AA.DRUGS[drugId].stateVersion || 2);
     const pinKey = 'infusion.defaultPreparation.' + drugId + '.v1';
     const concUnit = AA.CONC_UNITS[drug.concUnit];
     const unitTitle = T(drug.unit.title);
@@ -51,7 +51,7 @@
       includeLoading: false, loadingDose: first.typicalLoading ?? first.doseRange.lo
     };
     const ind = () => drug.indications.find(i => i.id === s.indicationID) || first;
-    const doseRange = () => { const r = ind().doseRange; return { lo: Math.max(0, r.lo - r.lo * 0.5), hi: r.hi + r.hi * 0.5 }; };
+    const doseRange = () => { const sr = ind().sliderRange; if (sr) return { lo: sr.lo, hi: sr.hi }; const r = ind().doseRange; return { lo: Math.max(0, r.lo - r.lo * 0.5), hi: r.hi + r.hi * 0.5 }; };
     const bolusRange = () => { const r = ind().loadingRange; return r ? { lo: Math.max(0, r.lo * 0.5), hi: r.hi * 1.5 } : { lo: 0, hi: 1 }; };
     s.dose = AA.clamp(Number(s.dose) || first.typicalDose, doseRange().lo, doseRange().hi);
     if (ind().loadingRange) s.loadingDose = AA.clamp(Number(s.loadingDose) || 0, bolusRange().lo, bolusRange().hi);
@@ -175,14 +175,17 @@
       const i = ind(), ok = inRange();
       const prog = (s.dose - i.doseRange.lo) / ((i.doseRange.hi - i.doseRange.lo) || 1);
       const weight = Fmt.decimal(out.dosingWeightKg), dose = Fmt.smart(s.dose), rate = Fmt.decimal(out.rateMlPerHour, 2);
+      const mcgDoseMgConc = drug.doseUnit === 'mcgPerKgPerMinute' && drug.concUnit === 'mgPerMl';
       const sub = drug.doseUnit === 'mgPerKgPerHour'
         ? '= (' + dose + ' × ' + weight + ') ÷ ' + Fmt.smart(out.concentrationMgPerMl) + ' = ' + rate + ' ' + T('unit.mlPerHour')
-        : '= (' + dose + ' × ' + weight + ' × 60) ÷ ' + Fmt.smart(out.concentrationMgPerMl * concUnit.displayFactor) + ' = ' + rate + ' ' + T('unit.mlPerHour');
+        : mcgDoseMgConc
+          ? '= (' + dose + ' × ' + weight + ' × 60 ÷ 1000) ÷ ' + Fmt.smart(out.concentrationMgPerMl) + ' = ' + rate + ' ' + T('unit.mlPerHour')
+          : '= (' + dose + ' × ' + weight + ' × 60) ÷ ' + Fmt.smart(out.concentrationMgPerMl * concUnit.displayFactor) + ' = ' + rate + ' ' + T('unit.mlPerHour');
       let html = sectionHeader({ title: T('result.title'), subtitle: T('result.subtitle'), icon: 'activity', tint: drug.tint,
         accessory: badge(ok ? T('result.inRange') : T('result.outOfRange'), ok ? 'success' : 'warning', { filled: true }) });
       html += UI.gauge({ rate: out.rateMlPerHour, progress: prog, inRange: ok, secondary: Fmt.smart(out.mgPerHour) + ' ' + T('unit.mgPerHour'),
         caption: dose + ' ' + unitTitle + ' × ' + weight + ' kg ÷ ' + formattedConc(out.concentrationMgPerMl) });
-      html += UI.formula(T(drug.doseUnit === 'mgPerKgPerHour' ? 'result.formulaMgKgH' : 'result.formulaMcgKgMin'), sub, drug.tint);
+      html += UI.formula(T(drug.doseUnit === 'mgPerKgPerHour' ? 'result.formulaMgKgH' : mcgDoseMgConc ? 'result.formulaMcgKgMinMg' : 'result.formulaMcgKgMin'), sub, drug.tint);
       html += '<div class="metrics three">' + metric({ title: T('result.mgPerHour'), value: Fmt.smart(out.mgPerHour), unit: T('unit.mg'), tint: drug.tint }) +
         metric({ title: T('result.mgPerMinute'), value: Fmt.decimal(out.mgPerMinute, 2), unit: T('unit.mg'), tint: drug.tint }) +
         metric({ title: T('result.mlPerMinute'), value: Fmt.decimal(out.rateMlPerMinute, 2), unit: 'mL', tint: drug.tint }) + '</div>';

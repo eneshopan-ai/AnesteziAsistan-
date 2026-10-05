@@ -36,16 +36,19 @@
     },
     propofolInfusion: {
       id: 'propofolInfusion', icon: 'droplets', tint: 'secondary',
-      doseUnit: 'mgPerKgPerHour', concentrationUnit: 'mgPerMl',
+      // İdame dozu mcg/kg/dk (50–200); konsantrasyon mg/mL kalır, yükleme dozu mg/kg kalır.
+      doseUnit: 'mcgPerKgPerMinute', concentrationUnit: 'mgPerMl',
+      loadingUnit: { bolusTitle: 'unit.mgPerKg', bolusMgFactor: 1 },
+      stateVersion: 3,
       indications: [
-        { id: 'anesthesiaMaintenance', icon: 'activity', doseRange: R(4, 12), typicalDose: 6, titrationStep: 0.5, loadingRange: R(1, 2.5), typicalLoading: 2 }
+        { id: 'anesthesiaMaintenance', icon: 'activity', doseRange: R(50, 200), typicalDose: 100, titrationStep: 10, sliderRange: R(30, 300), loadingRange: R(1, 2.5), typicalLoading: 2 }
       ],
       presets: [[500, 50], [200, 20], [1000, 100], [1000, 50]],
       defaultPreparation: { mode: 'direct', directConcentration: 10, totalDrugMg: 500, totalVolumeMl: 50 },
       limits: { minimumUseful: 2, peripheralMaximum: null, absoluteMaximum: 20 },
       standingSeverities: [0, 0, 0],
       rules: [
-        { key: 'pris', severity: 1, evaluate: e => e.dose > 4 ? { dose: Fmt.smart(e.dose) } : null },
+        { key: 'pris', severity: 1, evaluate: e => e.dose * 0.06 > 4 ? { dose: Fmt.smart(e.dose) } : null },
         { key: 'lipidLoad', severity: 0, evaluate: e => {
           const mlPerDay = e.rateMlPerHour * 24;
           if (!(mlPerDay > 0)) return null;
