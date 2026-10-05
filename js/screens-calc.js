@@ -646,7 +646,7 @@
         card(sectionHeader({ title: T('airwayMeasure.ulbtTitle'), subtitle: T('airwayMeasure.ulbtSubtitle'), icon: 'mouth', tint }) +
           '<div class="opt-list">' + [0, 1, 2].map(i => '<button type="button" class="opt' + (s.ulbt === i ? ' on' : '') + '" style="' + tintStyle(tint) + 'align-items:flex-start" data-act="ulbt" data-value="' + i + '"><span class="radio" style="margin-top:2px"></span><span class="ot"><b style="font-family:var(--font)">' +
             esc(T('airwayMeasure.ulbt.' + i)) + '</b><br><span style="font-size:11.5px;color:var(--textTertiary)">' + esc(T('airwayMeasure.ulbtDetail.' + i)) + '</span></span></button>').join('') + '</div>') +
-        '<div data-region="out" style="display:flex;flex-direction:column;gap:22px">' + results() + '</div>' + UI.footnote(T('airwayMeasure.reference'), 'book-open'),
+        '<div data-region="out" style="display:flex;flex-direction:column;gap:22px">' + results() + '</div>' + UI.footnote(T('airwayMeasure.reference'), 'book-open') + (AA.refsCard ? AA.refsCard('airwayMeasurements', tint) : ''),
       regions: { out: results },
       get(p) { return s[p]; },
       set(p, v) { s[p] = v; persist(); },

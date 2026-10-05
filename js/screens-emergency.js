@@ -7,39 +7,6 @@
   const { T, Fmt, UI, PatientStore } = AA;
   const { esc, icon, card, sectionHeader, badge, metric, tintStyle } = UI;
 
-  // ================================================================ Kaynakça
-  // Yalnızca DOI/PMID'si doğrulanmış kayıtlar bağlantı üretir; doğrulanamayan tanımlayıcı alanı boş bırakılır.
-  const REFS = {
-    rosenberg2004: { cite: 'Rosenberg PH, Veering BT, Urmey WF. Maximum recommended doses of local anesthetics: a multifactorial concept. Reg Anesth Pain Med. 2004;29(6):564–575.',
-      doi: '10.1016/j.rapm.2004.08.003', pmid: '15635516' },
-    neal2018: { cite: 'Neal JM, Barrington MJ, Fettiplace MR, Gitman M, Memtsoudis SG, Mörwald EE, Rubin DS, Weinberg G. The Third American Society of Regional Anesthesia and Pain Medicine Practice Advisory on Local Anesthetic Systemic Toxicity: Executive Summary 2017. Reg Anesth Pain Med. 2018;43(2):113.',
-      doi: '10.1097/AAP.0000000000000720', pmid: '29356773' },
-    rosenberg2015: { cite: 'Rosenberg H, Pollock N, Schiemann A, Bulger T, Stowell K. Malignant hyperthermia: a review. Orphanet J Rare Dis. 2015;10:93.',
-      doi: '10.1186/s13023-015-0310-1', pmid: '26238698' },
-    topjian2020: { cite: 'Topjian AA, Raymond TT, Atkins D, et al. Part 4: Pediatric Basic and Advanced Life Support: 2020 American Heart Association Guidelines for Cardiopulmonary Resuscitation and Emergency Cardiovascular Care. Circulation. 2020;142(16 Suppl 2):S469–S523.',
-      doi: '10.1161/CIR.0000000000000901' },
-    mhaus: { cite: 'Malignant Hyperthermia Association of the United States (MHAUS). Emergency Therapy for Malignant Hyperthermia (dantrolen dozu: 2,5 mg/kg).' }
-  };
-  const CALC_REFS = {
-    localAnestheticMax: ['rosenberg2004'],
-    lastLipid: ['neal2018'],
-    malignantHyperthermia: ['mhaus', 'rosenberg2015'],
-    pediatricEmergency: ['topjian2020']
-  };
-  AA.REFS = REFS;
-  AA.CALC_REFS = CALC_REFS;
-
-  const link = (href, label) => '<a href="' + esc(href) + '" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:700;text-decoration:none;margin-right:12px">' + esc(label) + ' ↗</a>';
-  const refsList = ids => '<div style="display:flex;flex-direction:column;gap:12px">' + ids.map(id => {
-    const r = REFS[id];
-    return '<div style="font-size:12px;color:var(--textSecondary);line-height:1.45">' + esc(r.cite) +
-      ((r.doi || r.pmid) ? '<div style="margin-top:4px">' + (r.doi ? link('https://doi.org/' + r.doi, 'DOI: ' + r.doi) : '') +
-        (r.pmid ? link('https://pubmed.ncbi.nlm.nih.gov/' + r.pmid + '/', 'PMID: ' + r.pmid) : '') + '</div>' : '') + '</div>';
-  }).join('') + '</div>';
-  const refsCard = (calcId, tint) => CALC_REFS[calcId]
-    ? card(sectionHeader({ title: T('emg.refs.title'), subtitle: T('emg.refs.subtitle'), icon: 'book-open', tint }) + refsList(CALC_REFS[calcId])) : '';
-  AA.refsHTML = calcId => CALC_REFS[calcId] ? refsList(CALC_REFS[calcId]) : '';
-
   // ================================================================ Ortak yardımcılar
   const region = (name, html) => '<div data-region="' + name + '">' + html + '</div>';
   const shareLines = lines => lines.concat('— ' + T('app.name') + ' · ' + T('share.disclaimer')).join('\n');
@@ -47,6 +14,7 @@
   const iconBtn = (act, ic, label, tint) => '<button type="button" class="circle-btn tinted" style="' + tintStyle(tint) + '" data-act="' + act + '" aria-label="' + esc(label) + '">' + icon(ic) + '</button>';
   const topRight = (calcId, tint) => iconBtn('reset', 'rotate-ccw', T('common.clear'), tint) +
     '<button type="button" class="circle-btn tinted" style="' + tintStyle(tint) + '" data-act="nav" data-to="info-' + calcId + '" aria-label="' + esc(T('info.title')) + '">' + icon('info') + '</button>';
+  const refsCard = (calcId, tint) => card(sectionHeader({ title: T('emg.refs.title'), subtitle: T('emg.refs.subtitle'), icon: 'book-open', tint }) + AA.refsHTML(calcId));
   const weight = () => { const w = PatientStore.patient.weightKg; return w > 0 ? w : null; };
   const needWeight = tint => UI.emptyState({ icon: 'user', title: T('calc.missingPatientTitle'), message: T('emg.needWeight'), tint });
   const mg = v => Fmt.smart(Math.round(v * 100) / 100);
