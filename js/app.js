@@ -406,7 +406,7 @@
       const about = card(sectionHeader({ title: T('settings.about'), icon: 'info', tint: 'textSecondary' }) +
         '<div>' + UI.infoRow(T('settings.app'), T('app.name')) + UI.infoRow(T('settings.version'), T('web.version')) +
         UI.infoRow(T('settings.calculatorCount'), String(total)) + '</div><div class="footnote" style="padding:0">' + esc(T('settings.disclaimer')) + '</div>');
-      return lang + appearance + defaults + display + data + about;
+      return lang + appearance + defaults + display + (AA.Account ? AA.Account.card() : '') + data + about;
     },
     set(path, value) { if (path === 'advancedMetrics') Settings.set('advancedMetrics', !!value); return 'render'; },
     act: {
@@ -422,7 +422,8 @@
             try { Object.keys(localStorage).filter(k => k.startsWith('aa.state.')).forEach(k => localStorage.removeItem(k)); } catch (e) { /* yok say */ }
             UI.toast(T('web.clearSavedDone')); App.render();
           } });
-      }
+      },
+      ...(AA.Account ? AA.Account.acts : {})
     }
   });
 

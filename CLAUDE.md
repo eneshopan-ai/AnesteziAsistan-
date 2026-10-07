@@ -40,3 +40,9 @@ Uygulama açılırken ve arka plandan dönerken `version.json`'a bakar; yeni sü
 - Commit mesajı sonuna şu satırlar eklenir:
   `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`
   `Claude-Session: https://claude.ai/code/session_0159eYqn5fs7mzR1zxG8Fiw8`
+
+## Hesap ve eşitleme (isteğe bağlı)
+
+- `js/account.js` + `js/firebase-config.js` + `firestore.rules`; kurulum `FIREBASE-KURULUM.md`. Yapılandırma boşsa özellik tamamen kapalıdır.
+- Yalnızca `settings.v1` (yasal uyarı onayı hariç) ve `state.infusion.*` / `state.vasoactive.*` anahtarları eşitlenir. Hasta kartı, kayıtlı hastalar ve hastaya özgü değer içeren hesaplayıcı durumları (kan gazı, sıvı, havayolu, sepsis, elektrolit vb.) buluta GİTMEZ; bu sınırı genişletme.
+- Eşitlenecek yeni bir anahtar eklenirse `isSynced()` ve gizlilik metinlerini birlikte güncelle.

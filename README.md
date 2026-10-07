@@ -12,6 +12,8 @@ Bu uygulama eğitim ve araştırma amacıyla hazırlanmıştır; onaylı bir tı
 
 Girilen hasta bilgileri hiçbir sunucuya gönderilmez. Ayarlar ve kaydedilen hastalar yalnızca kullanılan tarayıcıda saklanır.
 
+İsteğe bağlı hesap özelliği (yalnızca `js/firebase-config.js` doldurulursa etkinleşir; bkz. `FIREBASE-KURULUM.md`) açıldığında yalnızca ayarlar ve infüzyon / vazoaktif hesaplayıcıların doz-konsantrasyon tercihleri kullanıcının hesabına eşitlenir. Hasta kartı, kayıtlı hastalar ve hastaya özgü değer içeren hesaplayıcı girdileri hiçbir zaman buluta gönderilmez.
+
 ## Teknik bilgi
 
 Uygulama derleme gerektirmeyen HTML, CSS ve JavaScript dosyalarından oluşur. Arayüz dilleri: Türkçe, İngilizce (ABD) ve İngilizce (Birleşik Krallık).

@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Her kullanıcı yalnızca kendi belgesine erişebilir; e-posta adresi doğrulanmış olmalıdır.
+    function owner(userId) {
+      return request.auth != null
+          && request.auth.uid == userId
+          && request.auth.token.email_verified == true;
+    }
+
+    match /users/{userId}/data/prefs {
+      allow read, delete: if owner(userId);
+      allow create, update: if owner(userId)
+          && request.resource.data.keys().hasOnly(['v', 'clientUpdatedAt', 'settings', 'stateJson'])
+          && request.resource.data.stateJson is string
+          && request.resource.data.stateJson.size() < 200000;
+    }
+
+    // Diğer her şey kapalı.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
