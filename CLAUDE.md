@@ -11,6 +11,7 @@ Sahibi: Enes (anestezi ve yoğun bakım hekimi, Trabzon). Yanıtlar Türkçe ver
 - `js/engines.js` — infüzyon hesap motoru (`makeDrug`, birim dönüşümleri)
 - `js/screens-calc.js` — hesaplayıcı ekranı, formül gösterimi, kayıtlı durum
 - `js/screens-emergency.js` — acil durum hesaplayıcıları (lokal anestezik maks. doz, LAST lipid, dantrolen, pediatrik acil) ve kaynakça (`REFS`, `CALC_REFS`: DOI/PMID bağlantıları)
+- `js/screens-neuromuscular.js` — nöromüsküler blok geri döndürme (sugammadeks mg/kg → mg ve mL; EMA SmPC + FDA etiket dozları, `nmb.*` metinleri)
 - `i18n/tr.json`, `en-US.json`, `en-GB.json` — metinler (minify yazılır, `ensure_ascii=False`)
 - `version.json`, `bump-build.sh` — sürüm etiketi
 

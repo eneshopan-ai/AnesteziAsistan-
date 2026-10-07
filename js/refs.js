@@ -64,10 +64,13 @@
     singer2016: { cite: 'Singer M, Deutschman CS, Seymour CW, et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). JAMA. 2016;315(8):801–810.', doi: '10.1001/jama.2016.0287', pmid: '26903338' },
     vincent1996: { cite: 'Vincent JL, Moreno R, Takala J, et al. The SOFA (Sepsis-related Organ Failure Assessment) score to describe organ dysfunction/failure. Intensive Care Med. 1996;22(7):707–710.', doi: '10.1007/BF01709751', pmid: '8844239' },
     ranzani2025: { cite: 'Ranzani OT, Singer M, Salluh JIF, et al. Development and validation of the Sequential Organ Failure Assessment (SOFA)-2 score. JAMA. 2025;334:2090–2103.', doi: '10.1001/jama.2025.20516', pmid: '41159833' },
-    moreno2025: { cite: 'Moreno R, et al. Rationale and methodological approach underlying the development of the Sequential Organ Failure Assessment (SOFA)-2 score. JAMA Netw Open. 2025;8(10):e2545040.', doi: '10.1001/jamanetworkopen.2025.45040' }
+    moreno2025: { cite: 'Moreno R, et al. Rationale and methodological approach underlying the development of the Sequential Organ Failure Assessment (SOFA)-2 score. JAMA Netw Open. 2025;8(10):e2545040.', doi: '10.1001/jamanetworkopen.2025.45040' },
+    emaBridion: { cite: 'European Medicines Agency. Bridion (sugammadex) — Summary of Product Characteristics (EPAR product information), sections 2, 4.2, 4.3, 4.4, 4.5, 6.5.', url: 'https://www.ema.europa.eu/en/documents/product-information/bridion-epar-product-information_en.pdf' },
+    fdaBridion: { cite: 'Merck Sharp & Dohme. BRIDION (sugammadex) injection, for intravenous use: prescribing information. U.S. Food and Drug Administration; revised 11/2022.', url: 'https://www.accessdata.fda.gov/drugsatfda_docs/label/2022/022225Orig1s012lbl.pdf' }
   };
 
   const CALC_REFS = {
+    sugammadexReversal: ['emaBridion', 'fdaBridion'],
     localAnestheticMax: ['rosenberg2004'],
     lastLipid: ['neal2018'],
     malignantHyperthermia: ['mhaus', 'rosenberg2015'],
@@ -110,8 +113,8 @@
   const refsList = ids => '<div style="display:flex;flex-direction:column;gap:12px">' + ids.map(id => {
     const r = REFS[id];
     return '<div style="font-size:12px;color:var(--textSecondary);line-height:1.45">' + esc(r.cite) +
-      ((r.doi || r.pmid) ? '<div style="margin-top:4px">' + (r.doi ? link('https://doi.org/' + r.doi, 'DOI: ' + r.doi) : '') +
-        (r.pmid ? link('https://pubmed.ncbi.nlm.nih.gov/' + r.pmid + '/', 'PMID: ' + r.pmid) : '') + '</div>' : '') + '</div>';
+      ((r.doi || r.pmid || r.url) ? '<div style="margin-top:4px">' + (r.doi ? link('https://doi.org/' + r.doi, 'DOI: ' + r.doi) : '') +
+        (r.pmid ? link('https://pubmed.ncbi.nlm.nih.gov/' + r.pmid + '/', 'PMID: ' + r.pmid) : '') + (r.url ? link(r.url, 'PDF') : '') + '</div>' : '') + '</div>';
   }).join('') + '</div>';
 
   AA.REFS = REFS;
